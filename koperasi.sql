@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 10 Jan 2024 pada 17.47
+-- Waktu pembuatan: 10 Jan 2024 pada 21.03
 -- Versi server: 10.4.32-MariaDB
 -- Versi PHP: 8.2.12
 
@@ -78,9 +78,26 @@ DELIMITER ;
 CREATE TABLE `tbl_pembayaran_pinjaman` (
   `id_pembayaran` int(11) NOT NULL,
   `id_pinjaman` int(11) NOT NULL,
-  `tgl_pembayaran` datetime NOT NULL,
+  `tgl_pembayaran` date NOT NULL,
   `jml_pembayaran` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data untuk tabel `tbl_pembayaran_pinjaman`
+--
+
+INSERT INTO `tbl_pembayaran_pinjaman` (`id_pembayaran`, `id_pinjaman`, `tgl_pembayaran`, `jml_pembayaran`) VALUES
+(1, 1, '2024-01-11', 0),
+(2, 2, '2024-01-11', 0),
+(3, 3, '2024-01-11', 0),
+(4, 4, '2024-01-11', 0),
+(5, 5, '2024-01-11', 0),
+(6, 6, '2024-01-11', 0),
+(7, 7, '2024-01-11', 0),
+(8, 8, '2024-01-11', 0),
+(9, 9, '2024-01-11', 0),
+(10, 10, '2024-01-11', 0),
+(11, 11, '2024-01-11', 0);
 
 -- --------------------------------------------------------
 
@@ -92,9 +109,42 @@ CREATE TABLE `tbl_pinjaman` (
   `id_pinjaman` int(11) NOT NULL,
   `id_anggota` int(11) NOT NULL,
   `jml_pinjaman` int(11) NOT NULL,
-  `tgl_pinjaman` datetime NOT NULL,
+  `tgl_pinjaman` date NOT NULL,
   `status_pinjaman` enum('Belum Lunas','Lunas','Diproses') NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data untuk tabel `tbl_pinjaman`
+--
+
+INSERT INTO `tbl_pinjaman` (`id_pinjaman`, `id_anggota`, `jml_pinjaman`, `tgl_pinjaman`, `status_pinjaman`) VALUES
+(1, 4, 100000, '2024-01-10', 'Belum Lunas'),
+(2, 4, 50000, '2024-01-10', 'Belum Lunas'),
+(3, 4, 50000, '2024-01-11', 'Belum Lunas'),
+(4, 4, 50000, '0000-00-00', 'Diproses'),
+(5, 4, 50000, '2024-01-11', 'Diproses'),
+(6, 4, 50000, '0000-00-00', 'Diproses'),
+(7, 4, 1000000, '0000-00-00', 'Diproses'),
+(8, 4, 50000, '0000-00-00', 'Diproses'),
+(9, 4, 1000000, '0000-00-00', 'Diproses'),
+(10, 4, 50000, '2024-01-11', 'Diproses'),
+(11, 2, 50000, '2024-01-11', 'Diproses');
+
+--
+-- Trigger `tbl_pinjaman`
+--
+DELIMITER $$
+CREATE TRIGGER `tr_byr_pinjaman` AFTER INSERT ON `tbl_pinjaman` FOR EACH ROW BEGIN
+    -- Mendapatkan nilai ID anggota yang baru saja diinsert
+    DECLARE new_id_pinjaman INT;
+    SET new_id_pinjaman = NEW.id_pinjaman;
+
+    -- Mengisi data ke dalam tbl_simpanan
+    INSERT INTO tbl_pembayaran_pinjaman (id_pinjaman, jml_pembayaran, tgl_pembayaran)
+    VALUES (new_id_pinjaman, 0, NOW()); -- Ubah nilai default jml_simpanan sesuai kebutuhan
+END
+$$
+DELIMITER ;
 
 -- --------------------------------------------------------
 
@@ -164,13 +214,13 @@ ALTER TABLE `tbl_anggota`
 -- AUTO_INCREMENT untuk tabel `tbl_pembayaran_pinjaman`
 --
 ALTER TABLE `tbl_pembayaran_pinjaman`
-  MODIFY `id_pembayaran` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_pembayaran` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT untuk tabel `tbl_pinjaman`
 --
 ALTER TABLE `tbl_pinjaman`
-  MODIFY `id_pinjaman` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_pinjaman` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT untuk tabel `tbl_simpanan`
