@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 10 Jan 2024 pada 17.28
+-- Waktu pembuatan: 10 Jan 2024 pada 17.47
 -- Versi server: 10.4.32-MariaDB
 -- Versi PHP: 8.2.12
 
@@ -93,7 +93,7 @@ CREATE TABLE `tbl_pinjaman` (
   `id_anggota` int(11) NOT NULL,
   `jml_pinjaman` int(11) NOT NULL,
   `tgl_pinjaman` datetime NOT NULL,
-  `status_pinjaman` enum('Belum Lunas','Lunas') NOT NULL
+  `status_pinjaman` enum('Belum Lunas','Lunas','Diproses') NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------

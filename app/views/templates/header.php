@@ -145,7 +145,7 @@ if (!isset($_SESSION['anggota']) && !isset($_SESSION['role'])) {
               <?php if(isset($_SESSION['role']) && $_SESSION['role'] == "bendahara"): ?>
                 <li>
                   <a href="<?= BASEURL ?>/pinjaman/peminjam">
-                    <i class="bi bi-circle"></i><span>Sudah diterima</span>
+                    <i class="bi bi-circle"></i><span>Data Pinjaman</span>
                   </a>
                 </li>
               <?php endif; ?>
