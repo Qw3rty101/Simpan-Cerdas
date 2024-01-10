@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 09 Jan 2024 pada 23.25
+-- Waktu pembuatan: 10 Jan 2024 pada 17.28
 -- Versi server: 10.4.32-MariaDB
 -- Versi PHP: 8.2.12
 
@@ -72,6 +72,33 @@ DELIMITER ;
 -- --------------------------------------------------------
 
 --
+-- Struktur dari tabel `tbl_pembayaran_pinjaman`
+--
+
+CREATE TABLE `tbl_pembayaran_pinjaman` (
+  `id_pembayaran` int(11) NOT NULL,
+  `id_pinjaman` int(11) NOT NULL,
+  `tgl_pembayaran` datetime NOT NULL,
+  `jml_pembayaran` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `tbl_pinjaman`
+--
+
+CREATE TABLE `tbl_pinjaman` (
+  `id_pinjaman` int(11) NOT NULL,
+  `id_anggota` int(11) NOT NULL,
+  `jml_pinjaman` int(11) NOT NULL,
+  `tgl_pinjaman` datetime NOT NULL,
+  `status_pinjaman` enum('Belum Lunas','Lunas') NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Struktur dari tabel `tbl_simpanan`
 --
 
@@ -90,7 +117,7 @@ INSERT INTO `tbl_simpanan` (`id_simpanan`, `id_anggota`, `jml_simpanan`, `tgl_si
 (1, 3, 100000, '2024-01-09 21:53:57'),
 (2, 2, 0, '2024-01-09 22:58:06'),
 (3, 3, 0, '2024-01-09 22:58:25'),
-(4, 4, 20000, '2024-01-10 04:59:49');
+(4, 4, 350000, '2024-01-10 04:59:49');
 
 --
 -- Indexes for dumped tables
@@ -101,6 +128,20 @@ INSERT INTO `tbl_simpanan` (`id_simpanan`, `id_anggota`, `jml_simpanan`, `tgl_si
 --
 ALTER TABLE `tbl_anggota`
   ADD PRIMARY KEY (`id_anggota`);
+
+--
+-- Indeks untuk tabel `tbl_pembayaran_pinjaman`
+--
+ALTER TABLE `tbl_pembayaran_pinjaman`
+  ADD PRIMARY KEY (`id_pembayaran`),
+  ADD KEY `id_pinjaman` (`id_pinjaman`);
+
+--
+-- Indeks untuk tabel `tbl_pinjaman`
+--
+ALTER TABLE `tbl_pinjaman`
+  ADD PRIMARY KEY (`id_pinjaman`),
+  ADD KEY `id_anggota` (`id_anggota`);
 
 --
 -- Indeks untuk tabel `tbl_simpanan`
@@ -120,6 +161,18 @@ ALTER TABLE `tbl_anggota`
   MODIFY `id_anggota` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
+-- AUTO_INCREMENT untuk tabel `tbl_pembayaran_pinjaman`
+--
+ALTER TABLE `tbl_pembayaran_pinjaman`
+  MODIFY `id_pembayaran` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT untuk tabel `tbl_pinjaman`
+--
+ALTER TABLE `tbl_pinjaman`
+  MODIFY `id_pinjaman` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT untuk tabel `tbl_simpanan`
 --
 ALTER TABLE `tbl_simpanan`
@@ -128,6 +181,18 @@ ALTER TABLE `tbl_simpanan`
 --
 -- Ketidakleluasaan untuk tabel pelimpahan (Dumped Tables)
 --
+
+--
+-- Ketidakleluasaan untuk tabel `tbl_pembayaran_pinjaman`
+--
+ALTER TABLE `tbl_pembayaran_pinjaman`
+  ADD CONSTRAINT `tbl_pembayaran_pinjaman_ibfk_1` FOREIGN KEY (`id_pinjaman`) REFERENCES `tbl_pinjaman` (`id_pinjaman`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Ketidakleluasaan untuk tabel `tbl_pinjaman`
+--
+ALTER TABLE `tbl_pinjaman`
+  ADD CONSTRAINT `tbl_pinjaman_ibfk_1` FOREIGN KEY (`id_anggota`) REFERENCES `tbl_anggota` (`id_anggota`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Ketidakleluasaan untuk tabel `tbl_simpanan`

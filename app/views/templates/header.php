@@ -119,15 +119,14 @@ if (!isset($_SESSION['anggota']) && !isset($_SESSION['role'])) {
         <!-- End Transaksi Cash -->
 
         <!-- Transaksi Cash -->
-        <?php if(isset($_SESSION['role']) && $_SESSION['role'] == "bendahara"): ?>
           <li class="nav-item">
             <a
               class="nav-link collapsed"
               data-bs-target="#forms-nav"
               data-bs-toggle="collapse"
-              href="#"
+              href=""
             >
-              <i class="bi bi-cash-coin"></i><span>Transaksi Kas</span
+              <i class="bi bi-cash-coin"></i><span>Pinjaman</span
               ><i class="bi bi-chevron-down ms-auto"></i>
             </a>
             <ul
@@ -135,29 +134,29 @@ if (!isset($_SESSION['anggota']) && !isset($_SESSION['role'])) {
               class="nav-content collapse"
               data-bs-parent="#sidebar-nav"
             >
+            <?php if(isset($_SESSION['role']) && $_SESSION['role'] == "anggota"): ?>
               <li>
-                <a href="../transaksi/pemasukan.php">
-                  <i class="bi bi-circle"></i><span>Pemasukan</span>
+                <a href="<?= BASEURL ?>/pinjaman/pengajuan">
+                  <i class="bi bi-circle"></i><span>Ajukan & Bayar Pinjaman</span>
                 </a>
               </li>
-              <li>
-                <a href="../transaksi/pengeluaran.php">
-                  <i class="bi bi-circle"></i><span>Pengeluaran</span>
-                </a>
-              </li>
-              <li>
-                <a href="../transaksi/transfer.php">
-                  <i class="bi bi-circle"></i><span>Transfer</span>
-                </a>
-              </li>
+              <?php endif; ?>
+              
+              <?php if(isset($_SESSION['role']) && $_SESSION['role'] == "bendahara"): ?>
+                <li>
+                  <a href="<?= BASEURL ?>/pinjaman/peminjam">
+                    <i class="bi bi-circle"></i><span>Sudah diterima</span>
+                  </a>
+                </li>
+              <?php endif; ?>
             </ul>
           </li>
-        <?php endif; ?>
 
 
         
         <!-- End Components Nav -->
 
+        <?php if(isset($_SESSION['role']) && $_SESSION['role'] == "anggota"): ?>
          <!-- Transaksi Cash -->
         <li class="nav-item">
           <a
@@ -187,6 +186,7 @@ if (!isset($_SESSION['anggota']) && !isset($_SESSION['role'])) {
           </ul>
         </li>
         <!-- End Components Nav -->
+        <?php endif; ?>
         
         <!-- Transaksi Cash -->
         <!-- <li class="nav-item">
