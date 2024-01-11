@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 10 Jan 2024 pada 21.03
+-- Waktu pembuatan: 11 Jan 2024 pada 13.03
 -- Versi server: 10.4.32-MariaDB
 -- Versi PHP: 8.2.12
 
@@ -87,17 +87,37 @@ CREATE TABLE `tbl_pembayaran_pinjaman` (
 --
 
 INSERT INTO `tbl_pembayaran_pinjaman` (`id_pembayaran`, `id_pinjaman`, `tgl_pembayaran`, `jml_pembayaran`) VALUES
-(1, 1, '2024-01-11', 0),
-(2, 2, '2024-01-11', 0),
-(3, 3, '2024-01-11', 0),
-(4, 4, '2024-01-11', 0),
-(5, 5, '2024-01-11', 0),
-(6, 6, '2024-01-11', 0),
-(7, 7, '2024-01-11', 0),
-(8, 8, '2024-01-11', 0),
-(9, 9, '2024-01-11', 0),
-(10, 10, '2024-01-11', 0),
-(11, 11, '2024-01-11', 0);
+(20, 20, '2024-01-11', 50000),
+(21, 21, '2024-01-11', 50000);
+
+--
+-- Trigger `tbl_pembayaran_pinjaman`
+--
+DELIMITER $$
+CREATE TRIGGER `update_status_pinjaman` AFTER UPDATE ON `tbl_pembayaran_pinjaman` FOR EACH ROW BEGIN
+    DECLARE total_pembayaran INT;
+    DECLARE total_pinjaman INT;
+
+    -- Get the total pembayaran for the corresponding pinjaman
+    SELECT SUM(jml_pembayaran) INTO total_pembayaran
+    FROM tbl_pembayaran_pinjaman
+    WHERE id_pinjaman = NEW.id_pinjaman;
+
+    -- Get the total pinjaman amount
+    SELECT jml_pinjaman INTO total_pinjaman
+    FROM tbl_pinjaman
+    WHERE id_pinjaman = NEW.id_pinjaman;
+
+    -- Check if the total_pembayaran is equal to total_pinjaman
+    IF total_pembayaran = total_pinjaman THEN
+        -- Update status_pinjaman to 'Lunas'
+        UPDATE tbl_pinjaman
+        SET status_pinjaman = 'Lunas'
+        WHERE id_pinjaman = NEW.id_pinjaman;
+    END IF;
+END
+$$
+DELIMITER ;
 
 -- --------------------------------------------------------
 
@@ -118,17 +138,8 @@ CREATE TABLE `tbl_pinjaman` (
 --
 
 INSERT INTO `tbl_pinjaman` (`id_pinjaman`, `id_anggota`, `jml_pinjaman`, `tgl_pinjaman`, `status_pinjaman`) VALUES
-(1, 4, 100000, '2024-01-10', 'Belum Lunas'),
-(2, 4, 50000, '2024-01-10', 'Belum Lunas'),
-(3, 4, 50000, '2024-01-11', 'Belum Lunas'),
-(4, 4, 50000, '0000-00-00', 'Diproses'),
-(5, 4, 50000, '2024-01-11', 'Diproses'),
-(6, 4, 50000, '0000-00-00', 'Diproses'),
-(7, 4, 1000000, '0000-00-00', 'Diproses'),
-(8, 4, 50000, '0000-00-00', 'Diproses'),
-(9, 4, 1000000, '0000-00-00', 'Diproses'),
-(10, 4, 50000, '2024-01-11', 'Diproses'),
-(11, 2, 50000, '2024-01-11', 'Diproses');
+(20, 4, 50000, '2024-01-11', 'Lunas'),
+(21, 4, 50000, '2024-01-11', 'Lunas');
 
 --
 -- Trigger `tbl_pinjaman`
@@ -167,7 +178,7 @@ INSERT INTO `tbl_simpanan` (`id_simpanan`, `id_anggota`, `jml_simpanan`, `tgl_si
 (1, 3, 100000, '2024-01-09 21:53:57'),
 (2, 2, 0, '2024-01-09 22:58:06'),
 (3, 3, 0, '2024-01-09 22:58:25'),
-(4, 4, 350000, '2024-01-10 04:59:49');
+(4, 4, 250000, '2024-01-10 04:59:49');
 
 --
 -- Indexes for dumped tables
@@ -214,13 +225,13 @@ ALTER TABLE `tbl_anggota`
 -- AUTO_INCREMENT untuk tabel `tbl_pembayaran_pinjaman`
 --
 ALTER TABLE `tbl_pembayaran_pinjaman`
-  MODIFY `id_pembayaran` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id_pembayaran` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT untuk tabel `tbl_pinjaman`
 --
 ALTER TABLE `tbl_pinjaman`
-  MODIFY `id_pinjaman` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id_pinjaman` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT untuk tabel `tbl_simpanan`
