@@ -17,20 +17,22 @@
             </thead>
             <tbody>
                 <?php foreach ($data['pinjaman'] as $index => $pinjaman) : ?>
+                    <?php if($pinjaman['status_pinjaman'] == "Diproses" ):?>
                     <tr>
                         <th scope="row"><?= $index + 1; ?></th>
                         <td><?= $pinjaman['nama_anggota']; ?></td>
                         <td>Rp<?= $pinjaman['jml_pinjaman']; ?></td>
                         <td><?= $pinjaman['tgl_pinjaman']; ?></td>
                         <td>
-                        <button type="button" class="btn btn-success" onclick="terimaPinjaman(<?= $pinjaman['id_pinjaman']; ?>)">
+                        <a href="<?= BASEURL; ?>/Pinjaman/terima/<?= $pinjaman['id_pinjaman']; ?>" class="btn btn-success">
                         <i class="bi bi-cash-stack"></i> Terima
-                    </button>
-                    <button type="button" class="btn btn-danger" onclick="tolakPinjaman(<?= $pinjaman['id_pinjaman']; ?>)">
-                        <i class="bi bi-cash-stack"></i> Tolak
-                    </button>
+                        </a>
+                        <a href="<?= BASEURL; ?>/Pinjaman/tolak/<?= $pinjaman['id_pinjaman']; ?>" class="btn btn-danger">
+                            <i class="bi bi-cash-stack"></i> Tolak
+                        </a>
                         </td>
                     </tr>
+                    <?php endif ?>
                 <?php endforeach; ?>
 
             </tbody>
@@ -40,41 +42,3 @@
     </div>
 </div>
 
-<!-- Pastikan jQuery sudah disertakan -->
-<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-
-<script>
-    function terimaPinjaman(idPinjaman) {
-        // Menggunakan jQuery untuk mengirim permintaan AJAX
-        $.ajax({
-            type: 'POST',
-            url: '<?= BASEURL ?>/Pinjaman/terima', // Sesuaikan dengan URL controller Anda
-            data: { id_pinjaman: idPinjaman },
-            success: function(response) {
-                console.log(response); // Tampilkan response dari server (debugging purposes)
-                // Refresh halaman atau lakukan aksi lain setelah penerimaan berhasil
-                location.reload();
-            },
-            error: function(error) {
-                console.error(error); // Tampilkan error jika terjadi
-            }
-        });
-    }
-
-    function tolakPinjaman(idPinjaman) {
-        // Menggunakan jQuery untuk mengirim permintaan AJAX
-        $.ajax({
-            type: 'POST',
-            url: '<?= BASEURL ?>/Pinjaman/tolak', // Sesuaikan dengan URL controller Anda
-            data: { id_pinjaman: idPinjaman },
-            success: function(response) {
-                console.log(response); // Tampilkan response dari server (debugging purposes)
-                // Refresh halaman atau lakukan aksi lain setelah penolakan berhasil
-                location.reload();
-            },
-            error: function(error) {
-                console.error(error); // Tampilkan error jika terjadi
-            }
-        });
-    }
-</script>

@@ -83,7 +83,7 @@ if (!isset($_SESSION['anggota']) && !isset($_SESSION['role'])) {
           <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
 
             <li>
-              <a class="dropdown-item d-flex align-items-center" href="users-profile.html">
+              <a class="dropdown-item d-flex align-items-center" href="#">
                 <i class="bi bi-person"></i>
                 <span>My Profile</span>
               </a>

@@ -40,8 +40,9 @@ class Pinjaman_model {
 
     public function getSaldo($id)
     {
-        $this->db->query('SELECT SUM(jml_pinjaman) AS total_pinjaman FROM ' . $this->table . ' WHERE id_anggota=:id');
+        $this->db->query('SELECT SUM(jml_pinjaman) AS total_pinjaman FROM ' . $this->table . ' WHERE id_anggota=:id AND status_pinjaman = :status');
         $this->db->bind('id', $id);
+        $this->db->bind('status', 'Belum Lunas');
         return $this->db->single();
     }
     
@@ -78,23 +79,25 @@ class Pinjaman_model {
         return $this->db->execute(); // Jalankan query update
     }
 
-    public function terima($id_anggota, $id_pinjaman, $nominal) {
-        // Logika Anda untuk menerima pinjaman
-        // Contoh: Update status_pinjaman ke 'Diterima' dan lakukan hal-hal lain yang dibutuhkan
-        $this->db->query('UPDATE ' . $this->table . ' SET status_pinjaman = "Diterima" WHERE id_anggota = :id_anggota AND id_pinjaman = :id_pinjaman');
-        $this->db->bind('id_anggota', $id_anggota);
-        $this->db->bind('id_pinjaman', $id_pinjaman);
-        return $this->db->execute();
+    public function terima($id_pinjaman) {
+        $this->db->query('UPDATE ' . $this->table . ' SET status_pinjaman = :status WHERE id_pinjaman = :id');
+        $this->db->bind(':id', $id_pinjaman);
+        $this->db->bind(':status', 'Belum Lunas');
+        $this->db->execute();
     }
     
-    public function tolak($id_anggota, $id_pinjaman, $nominal) {
-        // Logika Anda untuk menolak pinjaman
-        // Contoh: Update status_pinjaman ke 'Ditolak' dan lakukan hal-hal lain yang dibutuhkan
-        $this->db->query('UPDATE ' . $this->table . ' SET status_pinjaman = "Ditolak" WHERE id_anggota = :id_anggota AND id_pinjaman = :id_pinjaman');
-        $this->db->bind('id_anggota', $id_anggota);
-        $this->db->bind('id_pinjaman', $id_pinjaman);
-        return $this->db->execute();
+    public function tolak($id_pinjaman) {
+        $this->db->query('DELETE FROM ' . $this->table . ' WHERE id_pinjaman = :id_pinjaman');
+        $this->db->bind(':id_pinjaman', $id_pinjaman);
+        $this->db->execute();
+    
+        // Hapus juga data dari tabel pembayaran
+        $this->db->query('DELETE FROM tbl_pembayaran_pinjaman WHERE id_pinjaman = :id_pinjaman');
+        $this->db->bind(':id_pinjaman', $id_pinjaman);
+        $this->db->execute();
     }
+    
+    
     
     
     

@@ -1,5 +1,5 @@
 <div class="pagetitle">
-    <h1>Titipkan uang anda pada kami</h1>
+    <h1>Pinjam Uang</h1>
 </div>
 
 <div class="card">
@@ -44,36 +44,68 @@
                 <h5 class="card-title">Pinjaman Anda</h5>
                 <!-- Default Table -->
                 <table class="table">
-    <thead>
-        <tr>
-            <th scope="col">No</th>
-            <th scope="col">Jumlah Pengajuan</th>
-            <th scope="col">Tanggal</th>
-            <th scope="col">Status</th>
-            <th scope="col">Opsi</th>
-        </tr>
-    </thead>
-    <tbody>
-        <?php foreach ($data['pinjaman'] as $index => $pinjaman) : ?>
-            <tr>
-                <th scope="row"><?= $index + 1; ?></th>
-                <td>Rp<?= $pinjaman['jml_pinjaman']; ?></td>
-                <td><?= $pinjaman['tgl_pinjaman']; ?></td>
-                <td>
-                    <span class="badge bg-warning text-dark"><?= $pinjaman['status_pinjaman']; ?></span>
-                </td>
-                <td>
-                    <?php if ($pinjaman['status_pinjaman'] == 'Diproses') : ?>
-                        <button type="button" class="btn btn-warning"><i class="bi bi-cash-coin"></i>Diproses</button>
-                    <?php else : ?>
-                        <button type="button" class="btn btn-success"><i class="bi bi-cash-stack"></i> Bayar</button>
-                    <?php endif; ?>
-                </td>
-            </tr>
-        <?php endforeach; ?>
-    </tbody>
-</table>
+                    <thead>
+                        <tr>
+                            <th scope="col">No</th>
+                            <th scope="col">Jumlah Pengajuan</th>
+                            <th scope="col">Tanggal</th>
+                            <th scope="col">Status</th>
+                            <th scope="col">Opsi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach ($data['pinjaman'] as $index => $pinjaman) : ?>
+                            <tr>
+                                <th scope="row"><?= $index + 1; ?></th>
+                                <td>Rp<?= $pinjaman['jml_pinjaman']; ?></td>
+                                <td><?= $pinjaman['tgl_pinjaman']; ?></td>
+                                <td>
+                                    <span class="badge bg-warning text-dark"><?= $pinjaman['status_pinjaman']; ?></span>
+                                </td>
+                                <td>
+                                    <?php if ($pinjaman['status_pinjaman'] == 'Diproses') : ?>
+                                        <button type="button" class="btn btn-warning"></button>
+                                    <?php else : ?>
+                                        <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#basicModal"><i class="bi bi-cash-stack"></i> Bayar</button>
+                                    <?php endif; ?>
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
 
+
+              <!-- Basic Modal -->
+              <div class="modal fade" id="basicModal" tabindex="-1">
+                <div class="modal-dialog">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title">Bayar dari <b>setoran</b> anda</h5>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form action="<?=BASEURL;?>/Pinjaman/bayar" method="POST">
+                            <div class="mb-3">
+                            <label class="col-sm-2 col-form-label">Nominal</label>
+                            <div class="col-sm-10">
+                                <select class="form-select" name="nominal" aria-label="Default select example">
+                                <option value="0" selected="">Pilih Nominal</option>
+                                <option value="50000">Rp 50000</option>
+                                <option value="100000">Rp 100000</option>
+                                <option value="250000">Rp 250000</option>
+                                <option value="500000">Rp 500000</option>
+                                <option value="1000000">Rp 1000000</option>
+                                </select>
+                            </div>
+                            </div>
+                        </form>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                      <button type="button" class="btn btn-success">Bayar</button>
+                    </div>
+                  </div>
+                </div>
+              </div><!-- End Basic Modal-->
 
             </div>
         </div>
