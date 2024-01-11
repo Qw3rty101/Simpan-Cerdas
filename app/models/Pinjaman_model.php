@@ -96,6 +96,29 @@ class Pinjaman_model {
         $this->db->bind(':id_pinjaman', $id_pinjaman);
         $this->db->execute();
     }
+
+
+    public function bayar($id_pinjaman, $nominal, $id_anggota) {
+        // Update tbl_simpanan
+        $this->db->query('UPDATE tbl_simpanan SET jml_simpanan = jml_simpanan - :bayar WHERE id_anggota = :id');
+        $this->db->bind('bayar', $nominal, PDO::PARAM_INT);
+        $this->db->bind('id', $id_anggota, PDO::PARAM_INT);
+        $simpananUpdated = $this->db->execute();
+    
+        // Update tbl_pembayaran_pinjaman
+        $this->db->query('UPDATE tbl_pembayaran_pinjaman SET jml_pembayaran = :bayar WHERE id_pinjaman = :id_pinjaman');
+        $this->db->bind('bayar', $nominal, PDO::PARAM_INT);
+        $this->db->bind('id_pinjaman', $id_pinjaman, PDO::PARAM_INT);
+        $pembayaranUpdated = $this->db->execute();
+        
+        // Tambahkan logika lainnya jika diperlukan
+        
+        // Mengembalikan nilai berdasarkan hasil dari kedua query
+        return $simpananUpdated && $pembayaranUpdated;
+    }
+    
+    
+
     
     
     

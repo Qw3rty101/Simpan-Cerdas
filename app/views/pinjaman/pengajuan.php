@@ -54,7 +54,8 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <?php foreach ($data['pinjaman'] as $index => $pinjaman) : ?>
+                    <?php foreach ($data['pinjaman'] as $index => $pinjaman) : ?>
+                        <?php if ($pinjaman['status_pinjaman'] != 'Lunas') : ?>
                             <tr>
                                 <th scope="row"><?= $index + 1; ?></th>
                                 <td>Rp<?= $pinjaman['jml_pinjaman']; ?></td>
@@ -66,11 +67,13 @@
                                     <?php if ($pinjaman['status_pinjaman'] == 'Diproses') : ?>
                                         <button type="button" class="btn btn-warning"></button>
                                     <?php else : ?>
-                                        <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#basicModal"><i class="bi bi-cash-stack"></i> Bayar</button>
+                                        <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#basicModal" data-id-pinjaman="<?= $pinjaman['id_pinjaman']; ?>"><i class="bi bi-cash-stack"></i> Bayar</button>
                                     <?php endif; ?>
                                 </td>
                             </tr>
-                        <?php endforeach; ?>
+                        <?php endif; ?>
+                    <?php endforeach; ?>
+
                     </tbody>
                 </table>
 
@@ -87,6 +90,7 @@
                         <form action="<?=BASEURL;?>/Pinjaman/bayar" method="POST">
                             <div class="mb-3">
                             <label class="col-sm-2 col-form-label">Nominal</label>
+                            <input type="hidden" name="id_pinjaman" value="<?= $pinjaman['id_pinjaman']; ?>">
                             <div class="col-sm-10">
                                 <select class="form-select" name="nominal" aria-label="Default select example">
                                 <option value="0" selected="">Pilih Nominal</option>
@@ -98,11 +102,11 @@
                                 </select>
                             </div>
                             </div>
+                            <div class="modal-footer">
+                              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                              <button type="submit" class="btn btn-success">Bayar</button>
+                            </div>
                         </form>
-                    <div class="modal-footer">
-                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                      <button type="button" class="btn btn-success">Bayar</button>
-                    </div>
                   </div>
                 </div>
               </div><!-- End Basic Modal-->

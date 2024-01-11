@@ -51,16 +51,16 @@ class Pinjaman extends Controller {
         // var_dump($_POST['nominal']);
     }
 
-    public function ambil() {
+    public function bayar() {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            // $id_pinjaman = isset($_POST['id_pinjaman']) ? intval($_POST['id_pinjaman']) : 0;
+            $id_pinjaman = isset($_POST['id_pinjaman']) ? intval($_POST['id_pinjaman']) : 0;
             $nominal = isset($_POST['nominal']) ? intval($_POST['nominal']) : 0;
     
             // Sesuaikan dengan ID anggota yang sesuai dengan sesi pengguna saat login
             $id_anggota = $_SESSION['anggota'];
     
             // Panggil metode peminjam pada model Pinjaman_model
-            if ($this->model('Pinjaman_model')->ambil($id_anggota, $nominal)) {
+            if ($this->model('Pinjaman_model')->bayar($id_pinjaman, $nominal, $id_anggota)) {
                 Flasher::setFlash('berhasil', 'ditambahkan', 'success');
                 header('Location: ' . BASEURL . '/pinjaman/pengajuan');
                 exit;
@@ -70,9 +70,10 @@ class Pinjaman extends Controller {
                 exit;
             }
         }
-
         // var_dump($_POST['nominal']);
     }
+    
+    
 
     public function tolak($id_pinjaman) {
         // Sesuaikan dengan ID anggota yang sesuai dengan sesi pengguna saat login
