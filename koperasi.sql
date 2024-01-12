@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 11 Jan 2024 pada 13.03
+-- Waktu pembuatan: 12 Jan 2024 pada 14.48
 -- Versi server: 10.4.32-MariaDB
 -- Versi PHP: 8.2.12
 
@@ -88,7 +88,9 @@ CREATE TABLE `tbl_pembayaran_pinjaman` (
 
 INSERT INTO `tbl_pembayaran_pinjaman` (`id_pembayaran`, `id_pinjaman`, `tgl_pembayaran`, `jml_pembayaran`) VALUES
 (20, 20, '2024-01-11', 50000),
-(21, 21, '2024-01-11', 50000);
+(21, 21, '2024-01-11', 50000),
+(22, 22, '2024-01-12', 1000000),
+(23, 23, '2024-01-12', 500000);
 
 --
 -- Trigger `tbl_pembayaran_pinjaman`
@@ -139,7 +141,9 @@ CREATE TABLE `tbl_pinjaman` (
 
 INSERT INTO `tbl_pinjaman` (`id_pinjaman`, `id_anggota`, `jml_pinjaman`, `tgl_pinjaman`, `status_pinjaman`) VALUES
 (20, 4, 50000, '2024-01-11', 'Lunas'),
-(21, 4, 50000, '2024-01-11', 'Lunas');
+(21, 4, 50000, '2024-01-11', 'Lunas'),
+(22, 2, 1000000, '2024-01-12', 'Lunas'),
+(23, 2, 500000, '2024-01-12', 'Lunas');
 
 --
 -- Trigger `tbl_pinjaman`
@@ -176,7 +180,7 @@ CREATE TABLE `tbl_simpanan` (
 
 INSERT INTO `tbl_simpanan` (`id_simpanan`, `id_anggota`, `jml_simpanan`, `tgl_simpanan`) VALUES
 (1, 3, 100000, '2024-01-09 21:53:57'),
-(2, 2, 0, '2024-01-09 22:58:06'),
+(2, 2, 500000, '2024-01-09 22:58:06'),
 (3, 3, 0, '2024-01-09 22:58:25'),
 (4, 4, 250000, '2024-01-10 04:59:49');
 
@@ -225,13 +229,13 @@ ALTER TABLE `tbl_anggota`
 -- AUTO_INCREMENT untuk tabel `tbl_pembayaran_pinjaman`
 --
 ALTER TABLE `tbl_pembayaran_pinjaman`
-  MODIFY `id_pembayaran` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `id_pembayaran` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT untuk tabel `tbl_pinjaman`
 --
 ALTER TABLE `tbl_pinjaman`
-  MODIFY `id_pinjaman` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `id_pinjaman` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT untuk tabel `tbl_simpanan`
