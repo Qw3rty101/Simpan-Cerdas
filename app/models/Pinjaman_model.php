@@ -91,7 +91,6 @@ class Pinjaman_model {
         $this->db->bind(':id_pinjaman', $id_pinjaman);
         $this->db->execute();
     
-        // Hapus juga data dari tabel pembayaran
         $this->db->query('DELETE FROM tbl_pembayaran_pinjaman WHERE id_pinjaman = :id_pinjaman');
         $this->db->bind(':id_pinjaman', $id_pinjaman);
         $this->db->execute();
@@ -116,12 +115,6 @@ class Pinjaman_model {
         // Mengembalikan nilai berdasarkan hasil dari kedua query
         return $simpananUpdated && $pembayaranUpdated;
     }
-    
-    
-
-    
-    
-    
     
     
     public function ubahDataMahasiswa($data)
