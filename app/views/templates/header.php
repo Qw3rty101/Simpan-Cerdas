@@ -187,53 +187,6 @@ if (!isset($_SESSION['anggota']) && !isset($_SESSION['role'])) {
         </li>
         <!-- End Components Nav -->
         <?php endif; ?>
-        
-        <!-- Transaksi Cash -->
-        <!-- <li class="nav-item">
-          <a
-            class="nav-link collapsed"
-            data-bs-target="#pinjam-nav"
-            data-bs-toggle="collapse"
-            href="#"
-          >
-          <i class="bi bi-wallet2"></i></i><span>Pinjaman</span
-            ><i class="bi bi-chevron-down ms-auto"></i>
-          </a> 
-          <ul
-            id="pinjam-nav"
-            class="nav-content collapse"
-            data-bs-parent="#sidebar-nav"
-          >
-            <li>
-              <a href="../pinjaman/data-pengajuan.php">
-                <i class="bi bi-circle"></i><span>Data Pengajuan</span>
-              </a>
-            </li>
-            <li>
-              <a href="../pinjaman/data-pinjaman.php">
-                <i class="bi bi-circle"></i><span>Data Pinjaman</span>
-              </a>
-            </li>
-            <li>
-              <a href="../pinjaman/bayar-angsuran.php">
-                <i class="bi bi-circle"></i><span>Bayar Angsuran</span>
-              </a>
-            </li>
-            <li>
-              <a href="../pinjaman/pinjaman-lunas.php">
-                <i class="bi bi-circle"></i><span>Pinjaman Lunas</span>
-              </a>
-            </li>
-          </ul>
-        </li> -->
-        <!-- End Components Nav -->
-
-        <!-- <li class="nav-item">
-          <a class="nav-link collapsed" href="dashboard">
-          <i class="bi bi-clipboard-data"></i>
-            <span>Laporan</span>
-          </a>
-        </li> -->
         <!-- End Transaksi Cash -->
         <?php if(isset($_SESSION['role']) && $_SESSION['role'] == "bendahara"): ?>
         <li class="nav-heading">Pages</li>
@@ -241,7 +194,7 @@ if (!isset($_SESSION['anggota']) && !isset($_SESSION['role'])) {
         <!-- End Profile Page Nav -->
 
         <li class="nav-item">
-          <a class="nav-link collapsed" href="../masteruser/masteruser">
+          <a class="nav-link collapsed" href="<?= BASEURL; ?>/master/">
             <i class="bi bi-people"></i>
             <span>Master User</span>
           </a>

@@ -9,7 +9,7 @@ class Home_model {
         $this->db = new Database;
     }
 
-    public function getAllMahasiswa()
+    public function getAllAnggota()
     {
         $this->db->query('SELECT * FROM ' . $this->table);
         return $this->db->resultSet();
